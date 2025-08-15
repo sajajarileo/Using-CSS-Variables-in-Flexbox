@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Using CSS Variables in Flexbox</title>
+  <style>
+    [class^='df-'] {
+      width: 550px;
+      --gap: 50px;
+      --col: 4;
+      --gutter: 3;
+      display: flex;
+      gap: var(--gap);
+      background-color: #eee;
+    }
+    [class^='df-'] .block {
+      aspect-ratio: 1 / 1;
+      width: calc((100% + var(--gap) - var(--gap) * var(--col)) / var(--col));
+      background-color: skyblue;
+    }
+    .df-2 .block {
+      width: calc((100% - var(--gap) * var(--gutter)) / (var(--gutter) + 1));
+      background-color: tomato;
+    }
+  </style>
+</head>
+<body>
+  <h1>Using CSS Variables in Flexbox</h1>
+  <div class="df-1">
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+  </div>
+  <h4>width: calc((100% + var(--gap) - var(--gap) * var(--col)) / var(--col));</h4>
+  <div class="df-2">
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+    <div class="block"></div>
+  </div>
+  <h4> width: calc((100% - var(--gap) * var(--gutter)) / (var(--gutter) + 1));</h4>
+</body>
+</html>
