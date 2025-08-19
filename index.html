@@ -29,11 +29,9 @@
     .var_df > * {width: calc((100% + var(--gap) - var(--gap) * var(--mxC)) / var(--mxC))!important;}
 
     /********** 예시 **********/
-    h1 {text-align: center;}
-
     #df {
       width: 96%;
-      background-color: #eee;
+      background-color: rgba(135, 206, 235, 0.2); /* skyblue */
       margin: 0 auto;
       
       --gap: 24px;
@@ -41,7 +39,7 @@
       --col: 6;
       flex-wrap: wrap;
     }
-    .element {aspect-ratio: 2 / 1; background-color: skyblue;}
+    .element {aspect-ratio: 2 / 1; background-color: deepskyblue;}
     @media (max-width: 1280px) {
       #df {--col: 5;}
     }
@@ -60,7 +58,11 @@
   </style>
 </head>
 <body>
-  <h1>Using CSS Variables in Flexbox</h1>
+  <div id="stepper" class="var_df">
+    <h1>Using CSS Variables in Flexbox</h1>
+    <div class="stepper_dec"></div>
+    <div class="stepper_inc"></div>
+  </div>
   <div id="df" class="var_df">
     <div class="element"></div>
     <div class="element"></div>
@@ -69,5 +71,88 @@
     <div class="element"></div>
     <div class="element"></div>
   </div>
+
+  <style>
+    #stepper h1 {
+      width: auto!important;
+      font-size: clamp(16px, 3.2vw, 32px);
+      line-height: 1.4;
+      text-align: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #stepper {
+      width: 96%;
+      height: fit-content;
+      margin: 24px auto;
+      position: relative;
+
+      --gap: 80%;
+      --col: 2;
+      justify-content: space-between; /* mx-w 설정 */
+      align-items: center;
+    }
+    [class^="stepper_"] {
+      max-width: 96px;
+      aspect-ratio: 1 / 1;
+      border-radius: 8%;
+      color: #fff;
+      background-color: deepskyblue;
+      border: 0.6vw outset #fff6;
+      box-sizing: border-box;
+      transition: box-shadow 40ms, filter 40ms, transform 80ms;
+      position: relative;
+      cursor: pointer;
+    }
+    [class^="stepper_"].act {
+      color: #fffd;
+      border: none;
+      box-shadow: inset 0 0 2.4vw 1.2vw #0024;
+      filter: brightness(96%);
+      transform: scale(0.88);
+    }
+    [class^="stepper_"]::after, [class^="stepper_"]::before {
+      content: '';
+      width: 64%;
+      height: 16%;
+      color: inherit;
+      background-color: currentColor;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .stepper_inc::before {transform: translate(-50%, -50%) rotate(90deg);}
+  </style>
+  <script>
+    const DF = document.getElementById('df');
+    const STEPPER = document.getElementById('stepper');
+
+    function glitchClass(target, className, endEvent = 'transitionend'){
+      let endGlitch = () => {
+        target.classList.remove(className);
+        target.removeEventListener(endEvent, endGlitch);
+      }
+      target.classList.remove(className);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        target.classList.add(className);
+        target.addEventListener(endEvent, endGlitch);
+      }));
+    }
+
+    STEPPER.addEventListener('click', e => {
+      if (!e.target.classList.contains('stepper_dec') && !e.target.classList.contains('stepper_inc')) return;
+
+      let nowCol = parseInt(getComputedStyle(DF).getPropertyValue('--col'));
+      if (e.target.classList.contains('stepper_dec') && nowCol > 1) nowCol--;
+      else if (e.target.classList.contains('stepper_inc') && nowCol < 6) nowCol++;
+      DF.style.setProperty('--col', nowCol);
+      glitchClass(e.target, 'act');
+    });
+    window.addEventListener('resize', () => {
+      DF.style.removeProperty('--col');
+    });
+  </script>
 </body>
 </html>
