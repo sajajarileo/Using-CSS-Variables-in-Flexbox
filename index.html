@@ -5,41 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Using CSS Variables in Flexbox</title>
   <style>
-    [class^='df-'] {
-      width: 550px;
-      --gap: 50px;
-      --col: 4;
-      --gutter: 3;
+    /********** 주석 **********/
+    /*
+    var(--gap) * 1px && --gap: 0px
+    gap(0px) * 1px => error
+
+    var(--gap) && --gap: 0
+    100% + gap(0) => error
+
+    mxC: fail safe
+    */
+
+    /********** 복붙 **********/
+    .var_df {
+      --gap: 0px;
+      --gapY: 0;
+      --col: 1;
+      --mxC: max(1, var(--col));
       display: flex;
-      gap: var(--gap);
+      gap: var(--gapY) var(--gap)!important;
+    }
+    .var_df > * {width: calc((100% + var(--gap) - var(--gap) * var(--mxC)) / var(--mxC))!important;}
+
+    /********** 예시 **********/
+    [id^='df-'] {
+      width: 550px;
       background-color: #eee;
     }
-    [class^='df-'] .block {
+    .element {
       aspect-ratio: 1 / 1;
-      width: calc((100% + var(--gap) - var(--gap) * var(--col)) / var(--col));
       background-color: skyblue;
     }
-    .df-2 .block {
-      width: calc((100% - var(--gap) * var(--gutter)) / (var(--gutter) + 1));
-      background-color: tomato;
+
+    #df-1 {
+      --gap: 50px;
+      --col: 4;
+    }
+
+    h1 {text-align: center;}
+
+    #df {
+      width: 96%;
+      background-color: #eee;
+      margin: 0 auto;
+      
+      --gap: 24px;
+      --gapY: var(--gap);
+      --col: 6;
+      flex-wrap: wrap;
+    }
+    .element {aspect-ratio: 2 / 1; background-color: skyblue;}
+    @media (max-width: 1280px) {
+      #df {--col: 5;}
+    }
+    @media (max-width: 1024px) {
+      #df {--col: 4; --gap: 16px;}
+    }
+    @media (max-width: 768px) {
+      #df {--col: 3; --gap: 8px;}
+    }
+    @media (max-width: 600px) {
+      #df {--col: 2;}
+    }
+    @media (max-width: 400px) {
+      #df {--col: 1;}
     }
   </style>
 </head>
 <body>
   <h1>Using CSS Variables in Flexbox</h1>
-  <div class="df-1">
-    <div class="block"></div>
-    <div class="block"></div>
-    <div class="block"></div>
-    <div class="block"></div>
+  <div id="df" class="var_df">
+    <div class="element"></div>
+    <div class="element"></div>
+    <div class="element"></div>
+    <div class="element"></div>
+    <div class="element"></div>
+    <div class="element"></div>
   </div>
-  <h4>width: calc((100% + var(--gap) - var(--gap) * var(--col)) / var(--col));</h4>
-  <div class="df-2">
-    <div class="block"></div>
-    <div class="block"></div>
-    <div class="block"></div>
-    <div class="block"></div>
-  </div>
-  <h4> width: calc((100% - var(--gap) * var(--gutter)) / (var(--gutter) + 1));</h4>
+
 </body>
 </html>
