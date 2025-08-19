@@ -94,6 +94,8 @@
       justify-content: space-between; /* mx-w 설정 */
       align-items: center;
     }
+    @media (max-width: 768px) {#stepper {--gap: 76%;}}
+    @media (max-width: 600px) {#stepper {--gap: 72%;}}
     [class^="stepper_"] {
       max-width: 96px;
       aspect-ratio: 1 / 1;
