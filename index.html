@@ -2,8 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <title>Using CSS Variables in Flexbox</title>
+  <link rel="icon" href="https://lh3.googleusercontent.com/pw/AP1GczPG_etOLYxP08IcrCm7HFSqSBTlMB2SIfQoz6NufxOjXjJMKFB7lng5M5ZI3-bdtbQvLLWgJQLQ7IkQjiID72BuWAuPDYiTsr9tnmqAifYdUGQSd6aXYFpIvOqs0VLDERSB7VlBNAdPsbQfRSTrLMs=w923-h923-s-no-gm?authuser=0">
   <style>
     /********** 주석 **********/
     /*
@@ -28,20 +29,6 @@
     .var_df > * {width: calc((100% + var(--gap) - var(--gap) * var(--mxC)) / var(--mxC))!important;}
 
     /********** 예시 **********/
-    [id^='df-'] {
-      width: 550px;
-      background-color: #eee;
-    }
-    .element {
-      aspect-ratio: 1 / 1;
-      background-color: skyblue;
-    }
-
-    #df-1 {
-      --gap: 50px;
-      --col: 4;
-    }
-
     h1 {text-align: center;}
 
     #df {
