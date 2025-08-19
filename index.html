@@ -129,6 +129,7 @@
     .stepper_inc::before {transform: translate(-50%, -50%) rotate(90deg);}
   </style>
   <script>
+    let loadedWidth = window.innerWidth;
     const DF = document.getElementById('df');
     const STEPPER = document.getElementById('stepper');
 
@@ -154,7 +155,12 @@
       glitchClass(e.target, 'act');
     });
     window.addEventListener('resize', () => {
-      DF.style.removeProperty('--col');
+      let nowWidth = window.innerWidth;
+      if (nowWidth !== loadedWidth) {
+        // 모바일 스크롤 제외
+        DF.style.removeProperty('--col');
+        loadedWidth = nowWidth;
+      }
     });
   </script>
 </body>
