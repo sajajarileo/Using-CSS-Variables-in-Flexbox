@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -27,7 +28,7 @@
       display: flex;
       gap: var(--gapY) var(--gap)!important;
     }
-    .var_df > * {width: calc((100% + var(--gap) - var(--gap) * var(--mxC)) / var(--mxC))!important;}
+    .var_df > * {flex-basis: calc((100% + var(--gap) - var(--gap) * var(--mxC)) / var(--mxC));}
 
     /********** 예시 **********/
     #df {
@@ -75,8 +76,7 @@
 
   <!---------- 스타일 & 스크립트 ---------->
   <style>
-    #stepper h1 {
-      width: auto!important;
+    h1 {
       font-size: clamp(16px, 3.2vw, 32px);
       line-height: 1.4;
       text-align: center;
@@ -130,7 +130,7 @@
     .stepper_inc::before {transform: translate(-50%, -50%) rotate(90deg);}
   </style>
   <script>
-    let loadedWidth = window.innerWidth;
+    let currentWidth = window.innerWidth;
     const DF = document.getElementById('df');
     const STEPPER = document.getElementById('stepper');
 
@@ -157,10 +157,10 @@
     });
     window.addEventListener('resize', () => {
       let nowWidth = window.innerWidth;
-      if (nowWidth !== loadedWidth) {
-        // 모바일 스크롤 제외
+      if (nowWidth !== currentWidth) {
+        // 모바일 스크롤에 의한 heigth 변경 배제
         DF.style.removeProperty('--col');
-        loadedWidth = nowWidth;
+        currentWidth = nowWidth;
       }
     });
   </script>
